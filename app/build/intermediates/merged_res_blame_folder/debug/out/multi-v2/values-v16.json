@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.samsung.android.ecgmonitor.app-mergeDebugResources-14:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "E:\\Users\\vitaliy\\.gradle\\caches\\transforms-3\\45c1b44f1aac10e0dd0ac1a29302f1f0\\transformed\\core-1.6.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "E:\\Users\\vitaliy\\.gradle\\caches\\transforms-3\\dd4d502fda572345ef51618d5c8d736f\\transformed\\appcompat-1.2.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        }
+    ]
+}
