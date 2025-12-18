@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
     private final Handler ecgHandler = new Handler(Looper.getMainLooper());
     private final AtomicBoolean isMeasurementRunning = new AtomicBoolean(false);
     private final AtomicReference<Float> curEcg = new AtomicReference<>();
-    private final int MEASUREMENT_DURATION = 30000;
+    private final int MEASUREMENT_DURATION = 60000;
     private final int MEASUREMENT_TICK = 1000;
     private final AtomicBoolean leadOff = new AtomicBoolean(true);
 
@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
                 return;
             } else
                 leadOff.set(false);
-            curEcg.set(list.get(list.size() - 1).getValue(ValueKey.EcgSet.ECG_MV));
+            curEcg.set(list.get(list.size() - 1).getValue(ValueKey.EcgSet.ECG_MV)); // График ЭКГ кек
         }
 
         @Override
@@ -409,7 +409,7 @@ public class MainActivity extends Activity {
             heartTracker = healthTrackingService.getHealthTracker(HealthTrackerType.HEART_RATE_CONTINUOUS);
             // sweatTracker = healthTrackingService.getHealthTracker(HealthTrackerType.SWEAT_LOSS);
             spo2Tracker = healthTrackingService.getHealthTracker(HealthTrackerType.SPO2_ON_DEMAND);
-            skinTemperatureTracker = healthTrackingService.getHealthTracker(HealthTrackerType.SKIN_TEMPERATURE_CONTINUOUS);
+            skinTemperatureTracker = healthTrackingService.getHealthTracker(HealthTrackerType.SKIN_TEMPERATURE_ON_DEMAND);
             edaTracker = healthTrackingService.getHealthTracker(HealthTrackerType.EDA_CONTINUOUS);
             accelerometerTracker = healthTrackingService.getHealthTracker(HealthTrackerType.ACCELEROMETER_CONTINUOUS);
 
@@ -486,7 +486,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    long startDate = 0L;
+
     private void startMeasurement() {
+        startDate = System.currentTimeMillis();
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_DENIED)
             requestPermissions(new String[]{permission}, 0);
         if (!permissionGranted) {
@@ -502,20 +505,20 @@ public class MainActivity extends Activity {
             mButMeasure.setText(R.string.stop);
             isMeasurementRunning.set(true);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//            ecgHandler.post(() -> ecgTracker.setEventListener(ecgListener));
+//             ecgHandler.post(() -> ecgTracker.setEventListener(ecgListener)); // сложный
 //            ecgHandler.post(() -> heartTracker.setEventListener(heartTrackerListener));
-            //ecgHandler.post(() -> sweatTracker.setEventListener(sweatTrackerListener));
-             ecgHandler.post(() -> spo2Tracker.setEventListener(spo2TrackerListener));
-            // ecgHandler.post(() -> skinTemperatureTracker.setEventListener(skinTemperatureTrackerListener));
-//            ecgHandler.post(() -> edaTracker.setEventListener(edaTrackerListener));
-//            ecgHandler.post(() -> accelerometerTracker.setEventListener(acccelerometrTrackerListener));
+//            //ecgHandler.post(() -> sweatTracker.setEventListener(sweatTrackerListener));
+//            // ecgHandler.post(() -> spo2Tracker.setEventListener(spo2TrackerListener));
+//             ecgHandler.post(() -> skinTemperatureTracker.setEventListener(skinTemperatureTrackerListener));
+//           ecgHandler.post(() -> edaTracker.setEventListener(edaTrackerListener));
+            ecgHandler.post(() -> accelerometerTracker.setEventListener(acccelerometrTrackerListener));
 
-
-            // heartTracker.unsetEventListener();
-            //            sweatTracker.unsetEventListener();
-            //            spo2Tracker.unsetEventListener();
-            //            skinTemperatureTracker.unsetEventListener();
-            //            edaTracker.unsetEventListener();
+//            ecgTracker.unsetEventListener();
+//            heartTracker.unsetEventListener();
+//            sweatTracker.unsetEventListener();
+//            spo2Tracker.unsetEventListener();
+//            skinTemperatureTracker.unsetEventListener();
+//            edaTracker.unsetEventListener();
 
             final Thread uiUpdateThread = new Thread(() -> countDownTimer.start());
             uiUpdateThread.start();
@@ -551,3 +554,4 @@ public class MainActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
+
